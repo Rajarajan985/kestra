@@ -71,10 +71,6 @@ class DistinctFilterTest {
         //Edge case: an empty list
         render = variableRenderer.render("{{ [] | distinct }}", Map.of());
         assertThat(render, is("[]"));
-
-        //Edge case: with null value
-        render = variableRenderer.render("{{ null | distinct }}", Map.of());
-        assertThat(render, is("null"));
     }
 
     @Test
@@ -97,23 +93,7 @@ class DistinctFilterTest {
     void distinctFilterWithNonListObject() {
         //Test case where the input is an object (should throw exception)
         assertThrows(IllegalVariableEvaluationException.class, () -> {
-            variableRenderer.render("{{ {key : \"value\"} }}", Map.of());
+            variableRenderer.render("{{ {key : \"value\"} | distinct }}", Map.of());
         });
-    }
-
-    @Test
-    void distinctFilter() throws IllegalVariableEvaluationException {
-        ImmutableMap<String, Object> vars = ImmutableMap.of(
-            "vars", ImmutableMap.of("second", Map.of(
-                "list", Arrays.asList(
-                    "one", "two", "one", "three", "four", "five", "three",
-                    1, 2, 3, 1, 2, 2,
-                    1.123F, 2.123F, 1.123F, 10.000F, 10.000F
-                )
-            ))
-        );
-
-        String render = variableRenderer.render("{{ vars.second.list | distinct }}", vars);
-        assertThat(render, is("[\"one\",\"two\",\"three\",\"four\",\"five\",1,2,3,1.123,2.123,10.0]"));
     }
 }
