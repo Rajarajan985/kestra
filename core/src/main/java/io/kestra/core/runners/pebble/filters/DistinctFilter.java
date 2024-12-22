@@ -13,7 +13,7 @@ public class DistinctFilter implements Filter {
 
     @Override
     public List<String> getArgumentNames() {
-        return List.of("distinct");
+        return null;
     }
 
     @Override
