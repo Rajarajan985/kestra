@@ -9,17 +9,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class UniqFilter implements Filter {
+public class DistinctFilter implements Filter {
 
     @Override
     public List<String> getArgumentNames() {
-        // No arguments are needed for the uniq filter
-        return null;
+        return List.of("distinct");
     }
 
     @Override
     public Object apply(Object input, Map<String, Object> args, PebbleTemplate self, EvaluationContext context,
-                        int lineNumber) throws PebbleException {
+                        int lineNumber) throws PebbleException, NullPointerException {
         // Check if the input is a list
         if (input instanceof List<?>) {
             List<?> list = (List<?>) input;
@@ -28,7 +27,10 @@ public class UniqFilter implements Filter {
             return list.stream().distinct().collect(Collectors.toList());
         }
 
-        // If the input is not a list, just return it as it is
-        return input;
+        //if the input is not list, throwing exception with constructor
+        throw new PebbleException(null,
+            "Input must be a list, but received : " + (input != null ? input.getClass().getName() : "null"),
+            lineNumber,
+            self != null ? self.getName() : "Unknown");
     }
 }

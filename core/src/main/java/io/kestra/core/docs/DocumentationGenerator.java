@@ -53,7 +53,7 @@ public class DocumentationGenerator {
                 public Map<String, Filter> getFilters() {
                     Map<String, Filter> filters = new HashMap<>();
                     filters.put("json", new ToJsonFilter());
-                    filters.put("uniq", new UniqFilter());
+                    filters.put("distinct", new DistinctFilter());
                     return filters;
                 }
             })
