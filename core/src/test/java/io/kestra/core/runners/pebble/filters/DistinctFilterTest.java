@@ -49,8 +49,7 @@ class DistinctFilterTest {
 
         //Test rendering the list without the distinct filter
         String render = variableRenderer.render("{{ vars.second.list }}", vars);
-        System.out.println("Before applying distinct filter : " + render);
-
+        
         //Verify that the list contains duplicates
         assertThat(render, containsString("one"));
         assertThat(render, containsString("two"));
@@ -60,8 +59,7 @@ class DistinctFilterTest {
 
         //Apply the distinct filter
         String distinctRender = variableRenderer.render("{{ vars.second.list | distinct }}", vars);
-        System.out.println("After applying distinct filter : " + distinctRender);
-
+		
         //Verify that duplicates are removed from the list
         assertThat(distinctRender, is("[\"one\",\"two\",\"three\",\"four\",\"five\",1,2,3,1.123,2.123,10.0]"));
         assertThat(distinctRender, not(containsString("one,one"))); //Ensure duplicates are removed
