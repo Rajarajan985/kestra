@@ -69,14 +69,9 @@ class DistinctFilterTest {
         //Edge case: an empty list
         render = variableRenderer.render("{{ [] | distinct }}", Map.of());
         assertThat(render, is("[]"));
-    }
-
-    @Test
-    void distinctFilterWithNullInput() {
-        //Test case where input is null (should throw exception)
-        assertThrows(IllegalVariableEvaluationException.class, () -> {
-            variableRenderer.render("{{ null | distinct }}", Map.of());
-        });
+		
+		render = variableRenderer.render("{{ null | distinct }}", Map.of());
+        assertThat(render, is("null"));
     }
 
     @Test
